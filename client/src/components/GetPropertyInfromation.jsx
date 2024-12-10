@@ -18,10 +18,11 @@ const GetPropertyInformation = ({ propertyData, loading, onDelete }) => {
   }
 
   return (
-    <div className="property-info-container p-6 bg-gray-50 min-h-screen">
+    <div className="property-info-container p-6  min-h-screen">
       <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
         Property Information
       </h2>
+      <br />
       {propertyData.map((property) => (
         <div
           key={property._id}

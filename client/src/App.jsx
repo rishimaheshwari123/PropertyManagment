@@ -5,36 +5,42 @@ import Login from "./pages/Login";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import Home from "./pages/Home";
 import PropertyInformation from "./pages/PropertyInformation";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route
-          path="/login"
-          element={
-            <OpenRoute>
-              <Login />
-            </OpenRoute>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/propertyinformation/:id"
-          element={
-            <PrivateRoute>
-              <PropertyInformation />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <Navbar />
+      <div className="min-h-screen">
+        <Routes>
+          <Route
+            path="/login"
+            element={
+              <OpenRoute>
+                <Login />
+              </OpenRoute>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/propertyinformation/:id"
+            element={
+              <PrivateRoute>
+                <PropertyInformation />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </div>
+      <Footer />
     </div>
   );
 };

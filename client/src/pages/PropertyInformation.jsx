@@ -107,26 +107,29 @@ const PropertyInformation = () => {
   }, [id]);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 min-h-screen">
       <div className="property-page flex flex-col items-center mb-6">
         <div className="flex flex-wrap gap-3 justify-center md:justify-start mb-6">
           <button
             onClick={() => navigate("/")}
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+            // className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+            className="button-85"
           >
             Go to Home
           </button>
           <button
-            className={`${
-              showForm ? "bg-red-500" : "bg-blue-500"
-            } text-white px-6 py-2 rounded-lg hover:opacity-90`}
+            // className={`${
+            //   showForm ? "bg-red-500" : "bg-blue-500"
+            // } text-white px-6 py-2 rounded-lg hover:opacity-90`}
+            className="button-85"
             onClick={() => setShowForm(!showForm)}
           >
             {showForm ? "Cancel" : "Add Property Information"}
           </button>
           <button
             onClick={() => window.print()}
-            className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600"
+            // className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600"
+            className="button-85"
           >
             Print Property
           </button>
@@ -199,13 +202,17 @@ const PropertyInformation = () => {
                 </div>
               ))}
             </div>
+            <br />
 
-            <button
-              onClick={handleSubmit}
-              className="bg-green-500 text-white px-6 py-2 rounded-lg w-full hover:bg-green-600"
-            >
-              Create Property Information
-            </button>
+            <div className="flex justify-center items-center">
+              <button
+                onClick={handleSubmit}
+                // className="bg-green-500 text-white px-6 py-2 rounded-lg w-full hover:bg-green-600"
+                className="button-85"
+              >
+                Create Property Information
+              </button>
+            </div>
           </div>
         )}
       </div>

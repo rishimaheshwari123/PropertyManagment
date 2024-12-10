@@ -39,9 +39,9 @@ const GetCategory = ({ categories, setCategories }) => {
   };
 
   return (
-    <div className="p-6 w-full">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        Category Management
+    <div className="p-6 w-full ">
+      <h1 className="text-2xl font-bold text-white mb-6 text-center">
+        Property Management
       </h1>
 
       {editCategory && (
@@ -61,7 +61,7 @@ const GetCategory = ({ categories, setCategories }) => {
                 #
               </th>
               <th className="px-6 py-3 text-left text-gray-600 font-semibold">
-                Category Name
+                Property Name
               </th>
               <th className="px-6 py-3 text-center text-gray-600 font-semibold">
                 Actions

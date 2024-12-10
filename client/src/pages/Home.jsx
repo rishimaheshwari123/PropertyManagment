@@ -43,29 +43,34 @@ const Home = () => {
   return (
     <div className="category-page flex flex-col items-center p-6">
       <button
-        className={`${
-          showForm ? "bg-red-500" : "bg-blue-500"
-        } text-white px-6 py-2 rounded-lg mb-6 hover:opacity-90`}
+        className="button-85"
+        // className={`${
+        //   showForm ? "bg-red-500" : "bg-blue-500"
+        // } text-white px-6 py-2 rounded-lg mb-6 hover:opacity-90`}
         onClick={() => setShowForm(!showForm)}
       >
-        {showForm ? "Cancel" : "Add Category"}
+        {showForm ? "Cancel" : "Add Property "}
       </button>
 
+      <br />
       {showForm && (
         <div className="form bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-7xl">
           <input
             type="text"
-            placeholder="Enter category name"
+            placeholder="Enter Property Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="border p-2 w-full mb-4 rounded-lg"
           />
-          <button
-            onClick={handleCreateCategory}
-            className="bg-green-500 text-white px-6 py-2 rounded-lg w-full hover:bg-green-600"
-          >
-            Create Category
-          </button>
+          <div className="flex justify-center items-center">
+            <button
+              onClick={handleCreateCategory}
+              // className="bg-green-500 text-white px-6 py-2 rounded-lg w-full hover:bg-green-600"
+              className="button-85"
+            >
+              Create Property
+            </button>
+          </div>
         </div>
       )}
 
