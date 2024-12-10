@@ -9,7 +9,13 @@ const {
     IMAGE_UPLOAD,
     CREATE_PROPERTY_INFORMATION,
     GET_ALL_PROPERTY_INFORMATION,
-    DELETE_PROPERTY
+    DELETE_PROPERTY,
+    CREATE_PROPERTY_COMMITI,
+    GET_ALL_PROPERTY_COMMITI,
+    DELETE_PROPERTY_COMMITI,
+    CREATE_UNITS,
+    DELETE_UNITS,
+    GET_ALL_UNITS
 } = admin;
 
 
@@ -224,6 +230,7 @@ export async function handleCreatePropertyInforamtionAPi(propertyData) {
 
 
 
+
 export async function getAllPropertyInformationApi(id) {
     let result = [];
     try {
@@ -276,3 +283,212 @@ export const deletePropertyInformationApi = async (id) => {
         return false;
     }
 };
+
+
+export async function handleCreatePropertyCommitiAPi(propertyData) {
+    // Show loading alert
+    Swal.fire({
+        title: "Creating Property Information...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    try {
+        // Send POST request with propertyData
+        const response = await apiConnector("POST", CREATE_PROPERTY_COMMITI, { propertyData });
+
+        // Close the loading alert
+        Swal.close();
+
+        // Check if the API response indicates success
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Property Information Creation Failed",
+                text: response.data.message || "Failed to create property information.",
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+
+        // Show success message
+        Swal.fire({
+            title: "Success!",
+            text: response.data.message || "Property information has been added.",
+            icon: "success",
+        });
+
+        // Return the created property data (optional)
+        return response.data.property;
+    } catch (error) {
+        // Handle errors and show error message
+        console.error("CREATE PROPERTY ERROR:", error);
+        Swal.fire({
+            title: "Failed to Create Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        throw error; // Re-throw the error for further handling if necessary
+    }
+}
+
+export async function getAllCommitiApi(id) {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_ALL_PROPERTY_COMMITI}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Information",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY INFORMATION ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+
+
+export const deleteCommitiApi = async (id) => {
+    try {
+        const response = await apiConnector("DELETE", `${DELETE_PROPERTY_COMMITI}/${id}`);
+        if (!response?.data?.success) {
+            Swal.fire({
+                title: "Delete Failed",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        Swal.fire({
+            title: "Deleted",
+            text: "Category deleted successfully!",
+            icon: "success",
+        });
+        return true;
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: error.response?.data?.message || "Something went wrong. Try again later.",
+            icon: "error",
+        });
+        return false;
+    }
+};
+export async function handleCreateUnitsAPi(propertyData) {
+    // Show loading alert
+    Swal.fire({
+        title: "Creating Property Information...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    try {
+        // Send POST request with propertyData
+        const response = await apiConnector("POST", CREATE_UNITS, { propertyData });
+
+        // Close the loading alert
+        Swal.close();
+
+        // Check if the API response indicates success
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Property Information Creation Failed",
+                text: response.data.message || "Failed to create property information.",
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+
+        // Show success message
+        Swal.fire({
+            title: "Success!",
+            text: response.data.message || "Property information has been added.",
+            icon: "success",
+        });
+
+        // Return the created property data (optional)
+        return response.data.property;
+    } catch (error) {
+        // Handle errors and show error message
+        console.error("CREATE PROPERTY ERROR:", error);
+        Swal.fire({
+            title: "Failed to Create Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        throw error; // Re-throw the error for further handling if necessary
+    }
+}
+
+export async function getAllUnitsApi(id) {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_ALL_UNITS}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Information",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY INFORMATION ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+
+
+export const deleteUnitsApi = async (id) => {
+    try {
+        const response = await apiConnector("DELETE", `${DELETE_UNITS}/${id}`);
+        if (!response?.data?.success) {
+            Swal.fire({
+                title: "Delete Failed",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        Swal.fire({
+            title: "Deleted",
+            text: "Category deleted successfully!",
+            icon: "success",
+        });
+        return true;
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: error.response?.data?.message || "Something went wrong. Try again later.",
+            icon: "error",
+        });
+        return false;
+    }
+};
+

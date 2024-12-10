@@ -41,6 +41,8 @@ app.use("/api/v1/auth", require("./routes/authRoute"))
 app.use("/api/v1/category", require("./routes/categoryRoutes"))
 app.use("/api/v1/image", require("./routes/imageRoute"));
 app.use("/api/v1/propertyinformation", require("./routes/propertyInformationRoute"));
+app.use("/api/v1/propertycommiti", require("./routes/propertyCommitiRoute"));
+app.use("/api/v1/units", require("./routes/unitsRoutes"));
 
 
 

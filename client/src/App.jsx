@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import PropertyInformation from "./pages/PropertyInformation";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import PropertyCommiti from "./pages/PropertyCommiti";
+import Units from "./pages/Units";
 
 const App = () => {
   return (
@@ -35,6 +37,22 @@ const App = () => {
             element={
               <PrivateRoute>
                 <PropertyInformation />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/propertycomitee/:id"
+            element={
+              <PrivateRoute>
+                <PropertyCommiti />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/propertyunits/:id"
+            element={
+              <PrivateRoute>
+                <Units />
               </PrivateRoute>
             }
           />

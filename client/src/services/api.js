@@ -17,4 +17,13 @@ export const admin = {
     DELETE_PROPERTY: BASE_URL + "/propertyinformation/delete",
 
 
+    CREATE_PROPERTY_COMMITI: BASE_URL + "/propertycommiti/create",
+    GET_ALL_PROPERTY_COMMITI: BASE_URL + "/propertycommiti/getAll",
+    DELETE_PROPERTY_COMMITI: BASE_URL + "/propertycommiti/delete",
+
+
+    CREATE_UNITS: BASE_URL + "/units/create",
+    GET_ALL_UNITS: BASE_URL + "/units/getAll",
+    DELETE_UNITS: BASE_URL + "/units/delete",
+
 }
