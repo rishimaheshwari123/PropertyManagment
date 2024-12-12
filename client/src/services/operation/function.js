@@ -15,7 +15,16 @@ const {
     DELETE_PROPERTY_COMMITI,
     CREATE_UNITS,
     DELETE_UNITS,
-    GET_ALL_UNITS
+    GET_ALL_UNITS,
+    CREATE_OWNER,
+    DELETE_OWNER,
+    GET_ALL_OWNER,
+    CREATE_INCOME,
+    GET_ALL_INCOME,
+    DELETE_INCOME,
+    CREATE_OUTCOME,
+    GET_ALL_OUTCOME,
+    DELETE_OUTCOME
 } = admin;
 
 
@@ -492,3 +501,313 @@ export const deleteUnitsApi = async (id) => {
     }
 };
 
+
+
+export async function handleCreateOwnerAPi(propertyData) {
+    // Show loading alert
+    Swal.fire({
+        title: "Creating Owner Information...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    try {
+        const response = await apiConnector("POST", CREATE_OWNER, { propertyData });
+
+        Swal.close();
+
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Property Owner Creation Failed",
+                text: response.data.message || "Failed to create property information.",
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+
+        // Show success message
+        Swal.fire({
+            title: "Success!",
+            text: response.data.message || "Property Owner has been added.",
+            icon: "success",
+        });
+
+        // Return the created property data (optional)
+        return response.data.property;
+    } catch (error) {
+        // Handle errors and show error message
+        console.error("CREATE PROPERTY ERROR:", error);
+        Swal.fire({
+            title: "Failed to Create Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        throw error; // Re-throw the error for further handling if necessary
+    }
+}
+
+export async function getAllOwnerApi(id) {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_ALL_OWNER}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Owner",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+
+
+export const deleteOwnerApi = async (id) => {
+    try {
+        const response = await apiConnector("DELETE", `${DELETE_OWNER}/${id}`);
+        if (!response?.data?.success) {
+            Swal.fire({
+                title: "Delete Failed",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        Swal.fire({
+            title: "Deleted",
+            text: "Owner deleted successfully!",
+            icon: "success",
+        });
+        return true;
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: error.response?.data?.message || "Something went wrong. Try again later.",
+            icon: "error",
+        });
+        return false;
+    }
+};
+
+
+
+export async function handleCreateIncomeApi(incomePayload) {
+    // Show loading alert
+    Swal.fire({
+        title: "Creating Income Information...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    try {
+        // Call the API using apiConnector
+        const response = await apiConnector("POST", CREATE_INCOME, incomePayload);
+
+        // Close loading alert
+        Swal.close();
+
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Income Creation Failed",
+                text: response?.data?.message || "Failed to create income information.",
+                icon: "error",
+            });
+            throw new Error(response?.data?.message);
+        }
+
+        // Show success message
+        Swal.fire({
+            title: "Success!",
+            text: response?.data?.message || "Income information has been added.",
+            icon: "success",
+        });
+
+        // Return the created income data (optional)
+        return response?.data?.income;
+    } catch (error) {
+        // Handle errors and show error message
+        console.error("CREATE INCOME ERROR:", error);
+        Swal.fire({
+            title: "Failed to Create Income Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        throw error; // Re-throw the error for further handling if necessary
+    }
+}
+
+
+export const deleteIncomeApi = async (id) => {
+    try {
+        const response = await apiConnector("DELETE", `${DELETE_INCOME}/${id}`);
+        if (!response?.data?.success) {
+            Swal.fire({
+                title: "Delete Failed",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        Swal.fire({
+            title: "Deleted",
+            text: "Owner deleted successfully!",
+            icon: "success",
+        });
+        return true;
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: error.response?.data?.message || "Something went wrong. Try again later.",
+            icon: "error",
+        });
+        return false;
+    }
+};
+
+
+export async function getAllIncomeApi(id) {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_ALL_INCOME}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Owner",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+
+
+export async function handleCreateOutcomeAPi(propertyData) {
+    // Show loading alert
+    Swal.fire({
+        title: "Creating Owner Information...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+    try {
+        const response = await apiConnector("POST", CREATE_OUTCOME, { propertyData });
+
+        Swal.close();
+
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Property Outcome Creation Failed",
+                text: response.data.message || "Failed to create property outcome.",
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+
+        // Show success message
+        Swal.fire({
+            title: "Success!",
+            text: response.data.message || "Property outcome has been added.",
+            icon: "success",
+        });
+
+        // Return the created property data (optional)
+        return response.data.property;
+    } catch (error) {
+        // Handle errors and show error message
+        console.error("CREATE PROPERTY ERROR:", error);
+        Swal.fire({
+            title: "Failed to Create Property Information",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        throw error; // Re-throw the error for further handling if necessary
+    }
+}
+
+export async function getAllOutcomeApi(id) {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_ALL_OUTCOME}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Outcome",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+
+
+export const deleteOutComeApi = async (id) => {
+    try {
+        const response = await apiConnector("DELETE", `${DELETE_OUTCOME}/${id}`);
+        if (!response?.data?.success) {
+            Swal.fire({
+                title: "Delete Failed",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        Swal.fire({
+            title: "Deleted",
+            text: "Outcome deleted successfully!",
+            icon: "success",
+        });
+        return true;
+    } catch (error) {
+        Swal.fire({
+            title: "Error",
+            text: error.response?.data?.message || "Something went wrong. Try again later.",
+            icon: "error",
+        });
+        return false;
+    }
+};

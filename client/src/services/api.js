@@ -26,4 +26,20 @@ export const admin = {
     GET_ALL_UNITS: BASE_URL + "/units/getAll",
     DELETE_UNITS: BASE_URL + "/units/delete",
 
+    CREATE_OWNER: BASE_URL + "/owner/create",
+    GET_ALL_OWNER: BASE_URL + "/owner/getAll",
+    DELETE_OWNER: BASE_URL + "/owner/delete",
+
+
+
+    CREATE_INCOME: BASE_URL + "/income/create",
+    GET_ALL_INCOME: BASE_URL + "/income/getAll",
+    DELETE_INCOME: BASE_URL + "/income/delete",
+
+
+
+    CREATE_OUTCOME: BASE_URL + "/outcome/create",
+    GET_ALL_OUTCOME: BASE_URL + "/outcome/getAll",
+    DELETE_OUTCOME: BASE_URL + "/outcome/delete",
+
 }

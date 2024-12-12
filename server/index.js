@@ -43,6 +43,10 @@ app.use("/api/v1/image", require("./routes/imageRoute"));
 app.use("/api/v1/propertyinformation", require("./routes/propertyInformationRoute"));
 app.use("/api/v1/propertycommiti", require("./routes/propertyCommitiRoute"));
 app.use("/api/v1/units", require("./routes/unitsRoutes"));
+app.use("/api/v1/owner", require("./routes/ownerRoute"));
+app.use("/api/v1/income", require("./routes/incomeRoute"));
+app.use("/api/v1/outcome", require("./routes/outcomeRoute"));
+
 
 
 
