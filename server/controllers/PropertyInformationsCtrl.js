@@ -80,6 +80,22 @@ const getAllPropertyInformationCtrl = async (req, res) => {
 };
 
 
+const getPropertyInformationCtrl = async (req, res) => {
+    try {
+        const properties = await PropertyModel.find();
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching property information.",
+            error: error.message,
+        });
+    }
+};
+
 
 
 
@@ -101,4 +117,5 @@ module.exports = {
     createPropertyInformationCtrl,
     getAllPropertyInformationCtrl,
     deletePropertyCtrl,
+    getPropertyInformationCtrl
 };

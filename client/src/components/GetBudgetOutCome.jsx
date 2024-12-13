@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaTrash } from "react-icons/fa"; // Import Trash Icon
 
-const GetOutCome = ({ propertyData, loading, onDelete }) => {
+const GetBudgetOutCome = ({ propertyData, loading, onDelete }) => {
   const [filteredData, setFilteredData] = useState(propertyData);
   const [selectedYear, setSelectedYear] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
@@ -134,4 +134,4 @@ const GetOutCome = ({ propertyData, loading, onDelete }) => {
   );
 };
 
-export default GetOutCome;
+export default GetBudgetOutCome;

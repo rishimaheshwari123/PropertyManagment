@@ -32,7 +32,6 @@ const createOwnerCtrl = async (req, res) => {
     }
 };
 
-
 const deleteOwnerCtrl = async (req, res) => {
     const { id } = req.params;
     try {
@@ -70,6 +69,22 @@ const getAllOwnerCtrl = async (req, res) => {
 };
 
 
+const getOwnerCtrl = async (req, res) => {
+    try {
+        const properties = await ownerModel.find();
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching owner.",
+            error: error.message,
+        });
+    }
+};
+
 
 
 
@@ -90,5 +105,6 @@ const getAllOwnerCtrl = async (req, res) => {
 module.exports = {
     createOwnerCtrl,
     deleteOwnerCtrl,
-    getAllOwnerCtrl
+    getAllOwnerCtrl,
+    getOwnerCtrl
 };

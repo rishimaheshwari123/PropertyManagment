@@ -71,6 +71,24 @@ const getAllPropertyCommitiCtrl = async (req, res) => {
         });
     }
 };
+const getPropertyCommitiCtrl = async (req, res) => {
+    try {
+        const properties = await PropertyCommitiModel.find();
+
+
+
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching property information.",
+            error: error.message,
+        });
+    }
+};
 
 
 
@@ -94,4 +112,5 @@ module.exports = {
     createPropertyCommitiCtrl,
     getAllPropertyCommitiCtrl,
     deletePropertyCommitiCtrl,
+    getPropertyCommitiCtrl
 };

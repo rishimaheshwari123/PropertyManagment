@@ -46,6 +46,9 @@ app.use("/api/v1/units", require("./routes/unitsRoutes"));
 app.use("/api/v1/owner", require("./routes/ownerRoute"));
 app.use("/api/v1/income", require("./routes/incomeRoute"));
 app.use("/api/v1/outcome", require("./routes/outcomeRoute"));
+app.use("/api/v1/budget", require("./routes/budgetRoute"));
+app.use("/api/v1/budgetincome", require("./routes/budgetIncomeRoute"));
+app.use("/api/v1/budgetoutcome", require("./routes/budgetoutcomeRoute"));
 
 
 

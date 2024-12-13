@@ -14,6 +14,15 @@ import RegularBudget from "./pages/RegularBudget";
 import Income from "./pages/Income";
 import OutCome from "./pages/OutCome";
 import Balance from "./pages/Balance";
+import Budget from "./pages/Budget";
+import BudgetIncome from "./pages/BudgetIncome";
+import BudgetOutCome from "./pages/BudgetOutCome";
+import Print from "./pages/Print";
+import PrintInformation from "./pages/PrintInformation";
+import PrintCommiti from "./pages/PrintCommiti";
+import PrintOwner from "./pages/PrintOwner";
+import PrintRegularBudget from "./pages/PrintRegularBudget";
+import PrintIncome from "./pages/PrintIncome";
 
 const App = () => {
   return (
@@ -98,6 +107,78 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Balance />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exceptionalbudget/:id"
+            element={
+              <PrivateRoute>
+                <Budget />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exceptionalbudget/income/:id"
+            element={
+              <PrivateRoute>
+                <BudgetIncome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/exceptionalbudget/outcome/:id"
+            element={
+              <PrivateRoute>
+                <BudgetOutCome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print"
+            element={
+              <PrivateRoute>
+                <Print />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/property-information"
+            element={
+              <PrivateRoute>
+                <PrintInformation />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/property-comitee"
+            element={
+              <PrivateRoute>
+                <PrintCommiti />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/owner"
+            element={
+              <PrivateRoute>
+                <PrintOwner />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/regular-budget"
+            element={
+              <PrivateRoute>
+                <PrintRegularBudget />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/regular-budget/income"
+            element={
+              <PrivateRoute>
+                <PrintIncome />
               </PrivateRoute>
             }
           />

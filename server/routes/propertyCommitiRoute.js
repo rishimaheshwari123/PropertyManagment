@@ -4,10 +4,12 @@ const router = express.Router();
 const {
     createPropertyCommitiCtrl,
     getAllPropertyCommitiCtrl,
-    deletePropertyCommitiCtrl
+    deletePropertyCommitiCtrl,
+    getPropertyCommitiCtrl
 } = require('../controllers/PropertyCommitiCtrl');
 
 router.post('/create', createPropertyCommitiCtrl);
 router.get('/getAll/:id', getAllPropertyCommitiCtrl);
+router.get('/getAll', getPropertyCommitiCtrl);
 router.delete('/delete/:id', deletePropertyCommitiCtrl);
 module.exports = router;

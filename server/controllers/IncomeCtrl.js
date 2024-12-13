@@ -82,5 +82,23 @@ const getAllIncomeCtrl = async (req, res) => {
         });
     }
 };
+const getIncomeCtrl = async (req, res) => {
+    try {
+        const properties = await incomeModel.find();
+        console.log(properties); // Check if data is being fetched
 
-module.exports = { createIncomeCtrl, deleteIncomeCtrl, getAllIncomeCtrl };
+        res.json({
+            success: true,
+            properties,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching income.",
+            error: error.message,
+        });
+    }
+};
+
+module.exports = { createIncomeCtrl, deleteIncomeCtrl, getAllIncomeCtrl, getIncomeCtrl };

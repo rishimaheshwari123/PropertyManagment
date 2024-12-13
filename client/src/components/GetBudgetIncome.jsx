@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FaTrash } from "react-icons/fa"; // Import Trash Icon
+import { FaTrash } from "react-icons/fa";
 
-const GetOutCome = ({ propertyData, loading, onDelete }) => {
+const GetBudgetIncome = ({ propertyData, loading, onDelete }) => {
   const [filteredData, setFilteredData] = useState(propertyData);
   const [selectedYear, setSelectedYear] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    // Calculate the total amount by summing individual property amounts
     const total = filteredData.reduce(
       (sum, property) => sum + (parseInt(property.amount) || 0), // Convert amount to an integer
       0
@@ -81,14 +80,12 @@ const GetOutCome = ({ propertyData, loading, onDelete }) => {
                 Code
               </th>
               <th className="px-4 py-2 text-left text-gray-600 font-semibold">
-                Expense Type
+                Owners
               </th>
               <th className="px-4 py-2 text-left text-gray-600 font-semibold">
-                Value of Expense
+                Contribution
               </th>
-              <th className="px-4 py-2 text-left text-gray-600 font-semibold">
-                Date & Time
-              </th>
+
               <th className="px-4 py-2 text-center text-gray-600 font-semibold">
                 Actions
               </th>
@@ -102,15 +99,12 @@ const GetOutCome = ({ propertyData, loading, onDelete }) => {
               >
                 <td className="px-4 py-2 text-gray-800">{index + 1}</td>
                 <td className="px-4 py-2 text-gray-800">
-                  {property?.type || "N/A"}
+                  {property?.name || "N/A"}
                 </td>
                 <td className="px-4 py-2 text-gray-800">
-                  ₹{property?.amount || "N/A"}
+                  {property?.amount || "N/A"}
                 </td>
-                <td className="px-4 py-2 text-gray-800">
-                  {new Date(property?.createdAt).toLocaleDateString()}{" "}
-                  {new Date(property?.createdAt).toLocaleTimeString()}
-                </td>
+
                 <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => onDelete(property._id)}
@@ -127,11 +121,11 @@ const GetOutCome = ({ propertyData, loading, onDelete }) => {
       </div>
 
       {/* Total Amount */}
-      <div className="mt-4 text-white text-center font-semibold">
+      <div className="mt-4 text-white text-center  font-semibold">
         <p>Total Amount: ₹{totalAmount}</p>
       </div>
     </div>
   );
 };
 
-export default GetOutCome;
+export default GetBudgetIncome;
