@@ -69,6 +69,21 @@ const getAllBudgetOutcomeCtrl = async (req, res) => {
         });
     }
 };
+const getBudgetOutcomeCtrl = async (req, res) => {
+    try {
+        const properties = await budgetoutcomeModle.find();
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching budget outcome.",
+            error: error.message,
+        });
+    }
+};
 
 
 
@@ -92,4 +107,5 @@ module.exports = {
     createbudgetOutComeCtrl,
     deletebudOutcomeCtrl,
     getAllBudgetOutcomeCtrl,
+    getBudgetOutcomeCtrl
 };

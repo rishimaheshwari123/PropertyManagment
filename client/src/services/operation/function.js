@@ -45,7 +45,10 @@ const {
     GET_PROPERTY_INFORMATION,
     GET_PROPERTY_COMMITI,
     GET_OWNER,
-    GET_INCOME
+    GET_INCOME,
+    GET_OUTCOME,
+    GET_BUDGET_INCOME,
+    GET_BUDGET_OUTCOME
 
 
 
@@ -906,6 +909,30 @@ export async function getAllOutcomeApi(id) {
         return result;
     }
 }
+export async function getOutcomeApi() {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_OUTCOME}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Outcome",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
 
 
 export const deleteOutComeApi = async (id) => {
@@ -1126,6 +1153,30 @@ export async function getAllBudgetIncomeApi(id) {
         return result;
     }
 }
+export async function getBudgetIncomeApi() {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_BUDGET_INCOME}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Property Outcome",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
 
 
 export const deleteBudgetIncomeApi = async (id) => {
@@ -1211,6 +1262,30 @@ export async function getAllBudgetOutcomeApi(id) {
     let result = [];
     try {
         const response = await apiConnector("GET", `${GET_ALL_BUDGET_OUTCOME}/${id}`);
+        if (!response?.data?.success) {
+            await Swal.fire({
+                title: "Failed to Fetch Budget Outcome",
+                text: response.data.message,
+                icon: "error",
+            });
+            throw new Error(response.data.message);
+        }
+        result = response.data.properties;
+        return result;
+    } catch (error) {
+        console.log("FETCH PROPERTY OWNER ERROR............", error);
+        Swal.fire({
+            title: "Failed to Fetch Property Owner",
+            text: error.response?.data?.message || "Something went wrong, please try again later.",
+            icon: "error",
+        });
+        return result;
+    }
+}
+export async function getBudgetOutcomeApi() {
+    let result = [];
+    try {
+        const response = await apiConnector("GET", `${GET_BUDGET_OUTCOME}`);
         if (!response?.data?.success) {
             await Swal.fire({
                 title: "Failed to Fetch Budget Outcome",

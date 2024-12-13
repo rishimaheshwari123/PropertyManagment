@@ -69,6 +69,21 @@ const getAllBudgetIncomeCtrl = async (req, res) => {
         });
     }
 };
+const getBudgetIncomeCtrl = async (req, res) => {
+    try {
+        const properties = await budgetIncomeModel.find();
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching budget income .",
+            error: error.message,
+        });
+    }
+};
 
 
 
@@ -91,5 +106,6 @@ const getAllBudgetIncomeCtrl = async (req, res) => {
 module.exports = {
     createBudgetIncomeCtrl,
     deleteBudgetIncomeCtrl,
-    getAllBudgetIncomeCtrl
+    getAllBudgetIncomeCtrl,
+    getBudgetIncomeCtrl
 };

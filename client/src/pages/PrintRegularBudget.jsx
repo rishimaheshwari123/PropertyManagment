@@ -11,10 +11,16 @@ const PrintRegularBudget = () => {
         >
           Incomes
         </Link>
-        <Link to="/print/regular-budget" className="button-85 text-center">
+        <Link
+          to="/print/regular-budget/outcome"
+          className="button-85 text-center"
+        >
           OutComes
         </Link>
-        <Link to="/print/property-comitee" className="button-85 text-center">
+        <Link
+          to="/print/regular-budget/balance"
+          className="button-85 text-center"
+        >
           Balance
         </Link>
       </div>

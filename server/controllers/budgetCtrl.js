@@ -1,4 +1,6 @@
 const budgetModel = require("../models/budgetModel");
+const budgetIncomeModel = require("../models/budgetIncomeModel")
+const budgetOutcomeModel = require("../models/budgetOutcomeModel")
 
 const createbudget = async (req, res) => {
   const { name } = req.body;
@@ -28,6 +30,20 @@ const deletebudget = async (req, res) => {
     if (!deletedCategory) {
       return res.status(404).json({ success: false, message: "Budget not found" });
     }
+    const modelsToUpdate = [
+      budgetIncomeModel,
+      budgetOutcomeModel
+    ];
+
+    await Promise.all(
+      modelsToUpdate.map((model) =>
+        model.updateMany(
+          { categoryId: id },
+          { $unset: { categoryId: "" } }
+        )
+      )
+    );
+
     res.status(200).json({
       success: true,
       message: "Budget deleted successfully",

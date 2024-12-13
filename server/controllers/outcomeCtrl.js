@@ -69,6 +69,21 @@ const getAllOutcomeCtrl = async (req, res) => {
         });
     }
 };
+const getOutcomeCtrl = async (req, res) => {
+    try {
+        const properties = await outcomeModle.find();
+        res.json({
+            success: true,
+            properties,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "An error occurred while fetching property outcome.",
+            error: error.message,
+        });
+    }
+};
 
 
 
@@ -92,4 +107,5 @@ module.exports = {
     createOutComeCtrl,
     deleteOutcomeCtrl,
     getAllOutcomeCtrl,
+    getOutcomeCtrl
 };

@@ -33,7 +33,9 @@ const GetCategory = ({ categories, setCategories }) => {
   };
 
   const handleNavigation = (link) => {
-    if (selectedCategory) {
+    if (link === "printreports") {
+      navigate("/print");
+    } else if (selectedCategory) {
       navigate(`/${link}/${selectedCategory._id}`);
     }
   };

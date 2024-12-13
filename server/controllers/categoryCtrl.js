@@ -1,4 +1,13 @@
 const Category = require("../models/categoryModel");
+const unitModel = require("../models/unitsModel")
+const piModel = require("../models/PropertyInformationsModel")
+const pcmodel = require("../models/PropertyCommitiModel")
+const ownerModel = require("../models/ownerModel")
+const outcomeModel = require("../models/outcomeModel")
+const incomeModel = require("../models/Income");
+const budgetModel = require("../models/budgetModel");
+
+const mongoose = require("mongoose");
 
 const createCategory = async (req, res) => {
   const { name } = req.body;
@@ -25,6 +34,15 @@ const deleteCategory = async (req, res) => {
   const { id } = req.params;
   try {
     const deletedCategory = await Category.findByIdAndDelete(id);
+    if (deleteCategory) {
+      await unitModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await piModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await pcmodel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await ownerModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await outcomeModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await incomeModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+      await budgetModel.deleteMany({ categoryId: new mongoose.Types.ObjectId(id) });
+    }
     if (!deletedCategory) {
       return res.status(404).json({ success: false, message: "Category not found" });
     }
@@ -34,6 +52,7 @@ const deleteCategory = async (req, res) => {
       category: deletedCategory,
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ success: false, message: error.message });
   }
 };

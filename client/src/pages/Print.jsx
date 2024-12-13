@@ -17,7 +17,7 @@ const Print = () => {
         <Link to="/print/property-comitee" className="button-85 text-center">
           Property Comitee
         </Link>
-        <Link to={""} className="button-85 text-center">
+        <Link to="/print/exceptional" className="button-85 text-center">
           Exceptional budget
         </Link>
         <Link to="/print/owner" className="button-85 text-center">

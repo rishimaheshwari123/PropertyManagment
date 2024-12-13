@@ -46,6 +46,7 @@ export const admin = {
 
     CREATE_OUTCOME: BASE_URL + "/outcome/create",
     GET_ALL_OUTCOME: BASE_URL + "/outcome/getAll",
+    GET_OUTCOME: BASE_URL + "/outcome/getAll",
     DELETE_OUTCOME: BASE_URL + "/outcome/delete",
 
 
@@ -57,12 +58,14 @@ export const admin = {
 
     CREATE_BUDGET_INCOME: BASE_URL + "/budgetincome/create",
     GET_ALL_BUDGET_INCOME: BASE_URL + "/budgetincome/getAll",
+    GET_BUDGET_INCOME: BASE_URL + "/budgetincome/getAll",
     DELETE_BUDGET_INCOME: BASE_URL + "/budgetincome/delete",
 
 
 
     CREATE_BUDGET_OUTCOME: BASE_URL + "/budgetoutcome/create",
     GET_ALL_BUDGET_OUTCOME: BASE_URL + "/budgetoutcome/getAll",
+    GET_BUDGET_OUTCOME: BASE_URL + "/budgetoutcome/getAll",
     DELETE_BUDGET_OUTCOME: BASE_URL + "/budgetoutcome/delete",
 
 }

@@ -23,6 +23,11 @@ import PrintCommiti from "./pages/PrintCommiti";
 import PrintOwner from "./pages/PrintOwner";
 import PrintRegularBudget from "./pages/PrintRegularBudget";
 import PrintIncome from "./pages/PrintIncome";
+import PrintOutcomes from "./pages/PrintOutcomes";
+import PrintBalance from "./pages/PrintBalance";
+import ExpectesnalBudget from "./pages/ExpectesnalBudget";
+import PrintBudgetIncome from "./pages/PrintBudgetIncome";
+import PrintBudgetOutcome from "./pages/PrintBudgetOutcome";
 
 const App = () => {
   return (
@@ -179,6 +184,46 @@ const App = () => {
             element={
               <PrivateRoute>
                 <PrintIncome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/regular-budget/outcome"
+            element={
+              <PrivateRoute>
+                <PrintOutcomes />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/regular-budget/balance"
+            element={
+              <PrivateRoute>
+                <PrintBalance />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/exceptional"
+            element={
+              <PrivateRoute>
+                <ExpectesnalBudget />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/exceptional/income"
+            element={
+              <PrivateRoute>
+                <PrintBudgetIncome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/print/exceptional/outcome"
+            element={
+              <PrivateRoute>
+                <PrintBudgetOutcome />
               </PrivateRoute>
             }
           />
