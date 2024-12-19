@@ -19,6 +19,10 @@ const incomeSchema = new mongoose.Schema({
         November: { type: Number, default: 0 },
         December: { type: Number, default: 0 },
     },
+    contribution: {
+        type: Number,
+        default: 0,
+    },
     totalAmount: {
         type: Number,
         default: 0,

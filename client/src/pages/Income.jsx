@@ -5,26 +5,14 @@ import {
   handleCreateIncomeApi,
   deleteIncomeApi,
   getAllIncomeApi,
+  getAllOwnerApi, // Import the API for fetching owner data
 } from "../services/operation/function";
 import GetIncome from "../components/GetIncome";
 
 const Income = () => {
   const [ownerName, setOwnerName] = useState("");
-  const [months, setMonths] = useState({
-    January: "",
-    February: "",
-    March: "",
-    April: "",
-    May: "",
-    June: "",
-    July: "",
-    August: "",
-    September: "",
-    October: "",
-    November: "",
-    December: "",
-  });
-
+  const [owners, setOwners] = useState([]); // State to store fetched owner data
+  const [contribution, setContribution] = useState(""); // State for contribution input
   const [showForm, setShowForm] = useState(false);
   const [incomeData, setIncomeData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +23,7 @@ const Income = () => {
   const handleSubmit = async () => {
     const incomePayload = {
       ownerName,
-      months,
+      contribution,
       categoryId: id, // Optional if linked with a category
     };
 
@@ -43,21 +31,7 @@ const Income = () => {
 
     if (success) {
       setOwnerName("");
-      setMonths({
-        January: 0,
-        February: 0,
-        March: 0,
-        April: 0,
-        May: 0,
-        June: 0,
-        July: 0,
-        August: 0,
-        September: 0,
-        October: 0,
-        November: 0,
-        December: 0,
-      });
-
+      setContribution("");
       setShowForm(false);
       fetchIncome();
     }
@@ -69,10 +43,22 @@ const Income = () => {
     try {
       setLoading(true);
       const data = await getAllIncomeApi(id);
-      console.log(data);
       setIncomeData(data);
     } catch (error) {
       console.error("Error fetching income data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchOwners = async () => {
+    try {
+      setLoading(true);
+      const data = await getAllOwnerApi(id); // Fetch owner data
+      setOwners(data); // Store owner data in state
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching owner data:", error);
     } finally {
       setLoading(false);
     }
@@ -99,6 +85,7 @@ const Income = () => {
 
   useEffect(() => {
     fetchIncome();
+    fetchOwners(); // Fetch owners on component mount
   }, [id]);
 
   return (
@@ -118,28 +105,28 @@ const Income = () => {
 
         {showForm && (
           <div className="form bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-4xl">
-            <input
-              type="text"
-              placeholder="Enter Owner Name"
+            {/* Dropdown for owner selection */}
+            <select
               value={ownerName}
               onChange={(e) => setOwnerName(e.target.value)}
               className="border p-2 w-full mb-4 rounded-lg"
-            />
+            >
+              <option value="">Select Owner</option>
+              {owners.map((owner) => (
+                <option key={owner.id} value={owner.name}>
+                  {owner.name}
+                </option>
+              ))}
+            </select>
 
-            {Object.keys(months).map((month) => (
-              <div key={month} className="mb-4">
-                <label className="block mb-1">{month}:</label>
-                <input
-                  type="number"
-                  placeholder={`Enter amount for ${month}`}
-                  value={months[month]}
-                  onChange={(e) =>
-                    setMonths({ ...months, [month]: Number(e.target.value) })
-                  }
-                  className="border p-2 w-full rounded-lg"
-                />
-              </div>
-            ))}
+            {/* Contribution input */}
+            <input
+              type="number"
+              placeholder="Enter Contribution Amount"
+              value={contribution}
+              onChange={(e) => setContribution(e.target.value)}
+              className="border p-2 w-full mb-4 rounded-lg"
+            />
 
             <div className="flex justify-center items-center">
               <button onClick={handleSubmit} className="button-85">

@@ -75,6 +75,9 @@ const GetIncome = ({ propertyData, loading, onDelete }) => {
                 Owner Name
               </th>
               <th className="px-4 py-2 text-left text-gray-600 font-semibold">
+                Contribution
+              </th>
+              <th className="px-4 py-2 text-left text-gray-600 font-semibold">
                 January
               </th>
               <th className="px-4 py-2 text-left text-gray-600 font-semibold">
@@ -133,6 +136,9 @@ const GetIncome = ({ propertyData, loading, onDelete }) => {
                 >
                   <td className="px-4 py-2 text-gray-800">
                     {income.ownerName}
+                  </td>
+                  <td className="px-4 py-2 text-gray-800">
+                    {income?.contribution}
                   </td>
                   <td className="px-4 py-2 text-gray-800">
                     {income.months.January}

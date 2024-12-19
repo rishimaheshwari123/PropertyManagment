@@ -41,6 +41,7 @@ export const admin = {
     GET_ALL_INCOME: BASE_URL + "/income/getAll",
     GET_INCOME: BASE_URL + "/income/getAll",
     DELETE_INCOME: BASE_URL + "/income/delete",
+    UPDATE_INCOME: BASE_URL + "/income/update",
 
 
 

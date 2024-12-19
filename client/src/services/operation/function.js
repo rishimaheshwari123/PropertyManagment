@@ -48,7 +48,10 @@ const {
     GET_INCOME,
     GET_OUTCOME,
     GET_BUDGET_INCOME,
-    GET_BUDGET_OUTCOME
+    GET_BUDGET_OUTCOME,
+
+
+    UPDATE_INCOME
 
 
 
@@ -785,6 +788,18 @@ export const deleteIncomeApi = async (id) => {
     }
 };
 
+
+export const updateMonthIncomeApi = async (id, month, amount) => {
+    try {
+        console.log("Updating income with:", { id, month, amount }); // Debugging
+
+        const response = await apiConnector("PUT", `${UPDATE_INCOME}/${id}`, { month, amount });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating month:", error);
+        throw error;
+    }
+};
 
 export async function getAllIncomeApi(id) {
     let result = [];

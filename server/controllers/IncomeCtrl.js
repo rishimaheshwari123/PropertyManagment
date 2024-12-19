@@ -4,7 +4,8 @@ const createIncomeCtrl = async (req, res) => {
     const {
         ownerName, // Replace 'ownerName' with 'incomeName' if necessary
         months = {},
-        categoryId
+        categoryId,
+        contribution
 
     } = req.body;
 
@@ -25,7 +26,8 @@ const createIncomeCtrl = async (req, res) => {
             ownerName,
             months,
             totalAmount,
-            categoryId
+            categoryId,
+            contribution
         });
 
         // Respond with success
@@ -101,4 +103,45 @@ const getIncomeCtrl = async (req, res) => {
     }
 };
 
-module.exports = { createIncomeCtrl, deleteIncomeCtrl, getAllIncomeCtrl, getIncomeCtrl };
+
+const updateMonthsIncome = async (req, res) => {
+    const { id } = req.params;
+    const { month, amount } = req.body;
+    console.log(req.body)
+    // Validate input
+    if (!month || typeof amount !== 'number') {
+        return res.status(400).json({ message: "Month and amount are required and amount should be a number" });
+    }
+
+    const validMonths = [
+        "January", "February", "March", "April", "May",
+        "June", "July", "August", "September",
+        "October", "November", "December"
+    ];
+
+    if (!validMonths.includes(month)) {
+        return res.status(400).json({ message: "Invalid month" });
+    }
+
+    try {
+        const updatedIncome = await Income.findByIdAndUpdate(
+            id,
+            { $set: { [`months.${month}`]: amount } },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedIncome) {
+            return res.status(404).json({ message: "Income record not found" });
+        }
+
+        updatedIncome.totalAmount = Object.values(updatedIncome.months).reduce((acc, curr) => acc + curr, 0);
+        await updatedIncome.save();
+
+        res.status(200).json({ message: "Month updated successfully", data: updatedIncome });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error", error });
+    }
+}
+
+module.exports = { createIncomeCtrl, deleteIncomeCtrl, getAllIncomeCtrl, getIncomeCtrl, updateMonthsIncome };
