@@ -69,7 +69,6 @@ const getAllIncomeCtrl = async (req, res) => {
     const { id } = req.params;
     try {
         const properties = await incomeModel.find({ categoryId: id });
-        console.log(properties); // Check if data is being fetched
 
         res.json({
             success: true,
@@ -107,7 +106,7 @@ const getIncomeCtrl = async (req, res) => {
 const updateMonthsIncome = async (req, res) => {
     const { id } = req.params;
     const { month, amount } = req.body;
-    console.log(req.body)
+    console.log(req.body);
     // Validate input
     if (!month || typeof amount !== 'number') {
         return res.status(400).json({ message: "Month and amount are required and amount should be a number" });
@@ -124,7 +123,7 @@ const updateMonthsIncome = async (req, res) => {
     }
 
     try {
-        const updatedIncome = await Income.findByIdAndUpdate(
+        const updatedIncome = await incomeModel.findByIdAndUpdate(
             id,
             { $set: { [`months.${month}`]: amount } },
             { new: true, runValidators: true }

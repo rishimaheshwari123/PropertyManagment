@@ -43,6 +43,7 @@ const Income = () => {
     try {
       setLoading(true);
       const data = await getAllIncomeApi(id);
+      console.log(data);
       setIncomeData(data);
     } catch (error) {
       console.error("Error fetching income data:", error);
@@ -141,6 +142,7 @@ const Income = () => {
         propertyData={incomeData}
         loading={loading}
         onDelete={handleDelete}
+        id={id}
       />
     </div>
   );
