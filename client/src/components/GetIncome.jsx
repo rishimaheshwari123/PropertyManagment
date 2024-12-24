@@ -13,6 +13,8 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
   const [paymentStatus, setPaymentStatus] = useState("Not Paid");
   const [partialAmount, setPartialAmount] = useState(0);
   const [incomeData, setIncomeData] = useState(propertyData); // Added state to store fetched income data
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [selectedIncomeData, setSelectedIncomeData] = useState(null); // Store selected income data for the modal
 
   useEffect(() => {
     // Fetch income data when the component mounts or when propertyData changes
@@ -51,19 +53,21 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
   const handleMonthClick = (incomeId, month) => {
     setSelectedIncomeId(incomeId); // Set selected income ID
     setSelectedMonth(month);
-    // Log the selected row's ID and contribution
+
+    // Get selected income data
     const selectedIncome = filteredData.find(
       (income) => income._id === incomeId
     );
     if (selectedIncome) {
-      console.log(`Selected Income ID: ${incomeId}`);
-      console.log(`Contribution: ${selectedIncome.contribution}`);
+      setSelectedIncomeData(selectedIncome); // Set selected income data for modal
+      setIsModalOpen(true); // Open the modal
     }
   };
 
   const fetchIncome = async () => {
     try {
       const data = await getAllIncomeApi(id);
+      console.log(data);
       setIncomeData(data);
     } catch (error) {
       console.error("Error fetching income data:", error);
@@ -94,7 +98,13 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
       // Use the contribution from the selected income
       amountToUpdate = income.contribution;
     } else if (paymentStatus === "Partially Paid") {
-      amountToUpdate = partialAmount;
+      // Ensure partialAmount is a valid number
+      const validPartialAmount = parseFloat(partialAmount);
+      if (isNaN(validPartialAmount) || validPartialAmount <= 0) {
+        toast.error("Please enter a valid partial amount.");
+        return;
+      }
+      amountToUpdate = validPartialAmount;
     }
 
     try {
@@ -109,6 +119,7 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
         setSelectedMonth(null);
         setSelectedIncomeId(null); // Clear selectedIncomeId
         fetchIncome(); // Re-fetch income data after the update
+        setIsModalOpen(false); // Close the modal after update
       }
     } catch (error) {
       toast.error("Error updating the month. Please try again."); // Error toast
@@ -116,13 +127,10 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
   };
 
   // Calculate the total amount for all users
-  const totalAmountForAllUsers = filteredData.reduce((total, income) => {
-    const totalAmount = Object.values(income.months).reduce(
-      (sum, month) => sum + month.amount,
-      0
-    );
-    return total + totalAmount;
-  }, 0);
+  const totalContribution = incomeData.reduce(
+    (sum, income) => sum + income.contribution,
+    0
+  );
 
   // List of all months
   const months = [
@@ -140,10 +148,23 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
     "December",
   ];
 
-  // Get current date dynamically
+  // Calculate monthly totals and deficits for each month
+  const monthlyTotals = {};
+  const monthlyDeficits = {};
+
+  months.forEach((month) => {
+    const monthlyTotal = incomeData.reduce(
+      (sum, income) => sum + (income.months[month] || 0),
+      0
+    );
+    monthlyTotals[month] = monthlyTotal;
+    monthlyDeficits[month] =
+      incomeData.reduce((sum, income) => sum + income.contribution, 0) -
+      monthlyTotal; // Deficit is the contribution - total for that month
+  });
+
   const currentDate = new Date(); // Use real current date
 
-  // Function to check if the selected month is in the future
   const isFutureMonth = (month) => {
     const monthIndex = months.indexOf(month);
     if (monthIndex === -1) return false;
@@ -207,7 +228,7 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
           <tbody>
             {filteredData.map((income) => {
               const totalAmount = Object.values(income.months).reduce(
-                (sum, month) => sum + month.amount,
+                (sum, value) => sum + value,
                 0
               );
               return (
@@ -225,78 +246,102 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
                     <td
                       key={month}
                       className="px-4 py-2 text-gray-800 cursor-pointer"
-                      onClick={() => handleMonthClick(income._id, month)} // Pass income._id here
+                      onClick={() => handleMonthClick(income._id, month)}
                     >
-                      {income.months[month]}
+                      {income.months[month] || 0}
                     </td>
                   ))}
-                  <td className="px-4 py-2 text-gray-800">
-                    {income?.totalAmount}
-                  </td>
+                  <td className="px-4 py-2 text-gray-800">{totalAmount}</td>
                   <td className="px-4 py-2 text-center">
-                    <button
+                    <FaTrash
+                      className="text-red-500 cursor-pointer"
                       onClick={() => onDelete(income._id)}
-                      className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 focus:outline-none"
-                      title="Delete Income"
-                    >
-                      <FaTrash size={16} />
-                    </button>
+                    />
                   </td>
                 </tr>
               );
             })}
+
+            {/* Footer Row for Total */}
+            <tr className="bg-gray-100 font-bold">
+              <td className="px-4 py-2 text-gray-800">Total</td>
+              <td className="px-4 py-2 text-gray-800">{totalContribution}</td>
+              {months.map((month) => (
+                <td key={month} className="px-4 py-2 text-gray-800">
+                  {monthlyTotals[month]}
+                </td>
+              ))}
+              <td className="px-4 py-2 text-gray-800"></td>
+              <td className="px-4 py-2 text-center"></td>
+            </tr>
+
+            {/* Footer Row for Deficit */}
+            <tr className="bg-gray-100 font-bold">
+              <td className="px-4 py-2 text-gray-800">Deficit</td>
+              <td className="px-4 py-2 text-gray-800">-</td>
+              {months.map((month) => (
+                <td key={month} className="px-4 py-2 text-gray-800">
+                  {monthlyDeficits[month] || 0}
+                </td>
+              ))}
+              <td className="px-4 py-2 text-gray-800"></td>
+              <td className="px-4 py-2 text-center"></td>
+            </tr>
           </tbody>
         </table>
       </div>
 
-      {/* Popup Modal */}
-      {selectedMonth && (
-        <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <h3 className="text-xl mb-4">Update {selectedMonth}</h3>
-            <div>
-              <label className="block text-gray-600 mb-2">Payment Status</label>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Update Income for {selectedMonth}
+            </h3>
+
+            <div className="mb-4">
+              <label
+                htmlFor="paymentStatus"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Payment Status
+              </label>
               <select
+                id="paymentStatus"
                 value={paymentStatus}
                 onChange={(e) => setPaymentStatus(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-4 py-2 mb-4"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md mt-2"
               >
-                {isFutureMonth(selectedMonth) ? (
-                  <option value="Full Paid">Pay in Advance</option>
-                ) : (
-                  <>
-                    <option value="Not Paid">Not Paid</option>
-                    <option value="Full Paid">Full Paid</option>
-                    <option value="Partially Paid">Partially Paid</option>
-                  </>
-                )}
+                <option value="Not Paid">Not Paid</option>
+                <option value="Full Paid">Full Paid</option>
+                <option value="Partially Paid">Partially Paid</option>
               </select>
+            </div>
 
-              {paymentStatus === "Partially Paid" && (
-                <div>
-                  <label className="block text-gray-600 mb-2">
-                    Partial Amount
-                  </label>
-                  <input
-                    type="number"
-                    value={partialAmount}
-                    onChange={(e) => setPartialAmount(Number(e.target.value))}
-                    className="w-full border border-gray-300 rounded-md px-4 py-2"
-                  />
-                </div>
-              )}
+            {paymentStatus === "Partially Paid" && (
+              <div className="mb-4">
+                <label
+                  htmlFor="partialAmount"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Partial Amount
+                </label>
+                <input
+                  type="number"
+                  id="partialAmount"
+                  value={partialAmount}
+                  onChange={(e) => setPartialAmount(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md mt-2"
+                />
+              </div>
+            )}
 
+            <div className="flex justify-end">
               <button
                 onClick={handleSubmit}
-                className="w-full bg-blue-600 text-white py-2 rounded-md mt-4"
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
-                Update
-              </button>
-              <button
-                onClick={() => setSelectedMonth(null)}
-                className="w-full bg-gray-300 text-black py-2 rounded-md mt-2"
-              >
-                Cancel
+                Submit
               </button>
             </div>
           </div>
