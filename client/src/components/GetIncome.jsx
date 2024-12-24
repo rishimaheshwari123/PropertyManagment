@@ -15,9 +15,8 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
   const [incomeData, setIncomeData] = useState(propertyData); // Added state to store fetched income data
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
   const [selectedIncomeData, setSelectedIncomeData] = useState(null); // Store selected income data for the modal
-
+  const [paymentType, setPaymentType] = useState("");
   useEffect(() => {
-    // Fetch income data when the component mounts or when propertyData changes
     setIncomeData(propertyData);
   }, [propertyData]);
 
@@ -186,15 +185,18 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
           className="px-4 py-2 border border-gray-300 rounded-md"
         >
           <option value="">All Years</option>
-          {incomeData.map((income) => {
-            const createdAt = new Date(income.createdAt); // Convert ISO string to Date
-            const year = createdAt.getFullYear(); // Get the year from Date
-            return (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            );
-          })}
+          {Array.from(
+            new Set(
+              incomeData.map((income) => {
+                const createdAt = new Date(income.createdAt); // Convert ISO string to Date
+                return createdAt.getFullYear(); // Get the year from Date
+              })
+            )
+          ).map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -291,55 +293,111 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
         </table>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Update Income for {selectedMonth}
-            </h3>
-
-            <div className="mb-4">
-              <label
-                htmlFor="paymentStatus"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Payment Status
-              </label>
-              <select
-                id="paymentStatus"
-                value={paymentStatus}
-                onChange={(e) => setPaymentStatus(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md mt-2"
-              >
-                <option value="Not Paid">Not Paid</option>
-                <option value="Full Paid">Full Paid</option>
-                <option value="Partially Paid">Partially Paid</option>
-              </select>
+          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md space-y-6">
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-gray-800">
+                Year: <span className="font-medium">{yearFilter}</span>
+              </h3>
+              <h3 className="text-xl font-bold text-gray-800">
+                Month: <span className="font-medium">{selectedMonth}</span>
+              </h3>
+              <h3 className="text-xl font-bold text-gray-800">
+                Owner:{" "}
+                <span className="font-medium">
+                  {selectedIncomeData.ownerName}
+                </span>
+              </h3>
+              <h3 className="text-xl font-bold text-gray-800">
+                Monthly Amount:{" "}
+                <span className="font-medium">
+                  {selectedIncomeData.contribution}
+                </span>
+              </h3>
             </div>
 
-            {paymentStatus === "Partially Paid" && (
-              <div className="mb-4">
+            <div className="space-y-4">
+              {/* Payment Status Section */}
+              <div>
                 <label
-                  htmlFor="partialAmount"
-                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="paymentStatus"
+                  className="block text-sm font-semibold text-gray-700 mb-1"
                 >
-                  Partial Amount
+                  Payment Status
                 </label>
-                <input
-                  type="number"
-                  id="partialAmount"
-                  value={partialAmount}
-                  onChange={(e) => setPartialAmount(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md mt-2"
-                />
+                <select
+                  id="paymentStatus"
+                  value={paymentStatus}
+                  onChange={(e) => setPaymentStatus(e.target.value)}
+                  className={`w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 ${
+                    paymentStatus === "Not Paid"
+                      ? "bg-red-500 text-white"
+                      : paymentStatus === "Full Paid"
+                      ? "bg-green-500 text-white"
+                      : paymentStatus === "Partially Paid"
+                      ? "bg-orange-500 text-white"
+                      : "bg-white text-gray-700"
+                  }`}
+                >
+                  <option value="Not Paid">Not Paid</option>
+                  <option value="Full Paid">Full Paid</option>
+                  <option value="Partially Paid">Partially Paid</option>
+                </select>
               </div>
-            )}
 
-            <div className="flex justify-end">
+              {/* Partial Amount Input */}
+              {paymentStatus === "Partially Paid" && (
+                <div>
+                  <label
+                    htmlFor="partialAmount"
+                    className="block text-sm font-semibold text-gray-700 mb-1"
+                  >
+                    Partial Amount
+                  </label>
+                  <input
+                    type="number"
+                    id="partialAmount"
+                    value={partialAmount}
+                    onChange={(e) => setPartialAmount(e.target.value)}
+                    className="w-full px-4 py-2 border bg-yellow-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              )}
+
+              {/* Payment Type Section */}
+              <div>
+                <label
+                  htmlFor="paymentType"
+                  className="block text-sm font-semibold text-gray-700 mb-1"
+                >
+                  Payment Type
+                </label>
+                <select
+                  id="paymentType"
+                  value={paymentType}
+                  onChange={(e) => setPaymentType(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
+                >
+                  <option value="Cash">Cash</option>
+                  <option value="Card">Card</option>
+                  <option value="Online">Online</option>
+                  <option value="UPI">UPI</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-6 py-2 bg-gray-400 text-white font-semibold rounded-md hover:bg-gray-500 transition duration-300"
+              >
+                Cancel
+              </button>
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-300"
               >
                 Submit
               </button>
