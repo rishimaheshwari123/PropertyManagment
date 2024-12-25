@@ -10,8 +10,7 @@ import GetOwner from "../components/GetOwner";
 import GetOutCome from "../components/GetOutCome";
 
 const OutCome = () => {
-  const [type, setType] = useState("");
-  const [amount, setAmount] = useState("");
+  const [expense, setExpense] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [propertyData, setPropertyData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,16 +20,14 @@ const OutCome = () => {
 
   const handleSubmit = async () => {
     const propertyData = {
-      type,
-      amount,
+      expense,
       categoryId: id, // Using categoryId directly from the URL
     };
 
     const success = await handleCreateOutcomeAPi(propertyData);
 
     if (success) {
-      setType("");
-      setAmount("");
+      setExpense("");
       setShowForm(false);
       fetchOutCome();
     }
@@ -92,16 +89,9 @@ const OutCome = () => {
           <div className="form bg-gray-100 p-6 rounded-lg shadow-md w-full max-w-4xl">
             <input
               type="text"
-              placeholder="Enter Expense Type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              className="border p-2 w-full mb-4 rounded-lg"
-            />
-            <input
-              type="number"
-              placeholder="Enter Amount"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              placeholder="Enter Expenses "
+              value={expense}
+              onChange={(e) => setExpense(e.target.value)}
               className="border p-2 w-full mb-4 rounded-lg"
             />
 
@@ -118,6 +108,7 @@ const OutCome = () => {
         propertyData={propertyData}
         loading={loading}
         onDelete={handleDelete}
+        id={id}
       />
     </div>
   );

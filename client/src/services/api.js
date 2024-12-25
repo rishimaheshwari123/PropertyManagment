@@ -49,6 +49,7 @@ export const admin = {
     GET_ALL_OUTCOME: BASE_URL + "/outcome/getAll",
     GET_OUTCOME: BASE_URL + "/outcome/getAll",
     DELETE_OUTCOME: BASE_URL + "/outcome/delete",
+    UPDATE_OUTCOME: BASE_URL + "/outcome/update",
 
 
     CREATE_BUDGET: BASE_URL + "/budget/create",

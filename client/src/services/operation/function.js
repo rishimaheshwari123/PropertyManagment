@@ -51,7 +51,8 @@ const {
     GET_BUDGET_OUTCOME,
 
 
-    UPDATE_INCOME
+    UPDATE_INCOME,
+    UPDATE_OUTCOME
 
 
 
@@ -801,6 +802,18 @@ export const updateMonthIncomeApi = async (id, month, amount) => {
     }
 };
 
+export const updateMonthOutComeApi = async (id, month, amount) => {
+    try {
+        console.log("Updating outcome with:", { id, month, amount }); // Debugging
+
+        const response = await apiConnector("PUT", `${UPDATE_OUTCOME}/${id}`, { month, amount });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating month:", error);
+        throw error;
+    }
+};
+
 export async function getAllIncomeApi(id) {
     let result = [];
     try {
@@ -887,7 +900,7 @@ export async function handleCreateOutcomeAPi(propertyData) {
         });
 
         // Return the created property data (optional)
-        return response.data.property;
+        return response.data.outcome;
     } catch (error) {
         // Handle errors and show error message
         console.error("CREATE PROPERTY ERROR:", error);
