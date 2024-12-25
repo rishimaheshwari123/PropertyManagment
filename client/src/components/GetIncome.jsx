@@ -244,15 +244,30 @@ const GetIncome = ({ propertyData, loading, onDelete, id }) => {
                   <td className="px-4 py-2 text-gray-800">
                     {income.contribution}
                   </td>
-                  {months.map((month) => (
-                    <td
-                      key={month}
-                      className="px-4 py-2 text-gray-800 cursor-pointer"
-                      onClick={() => handleMonthClick(income._id, month)}
-                    >
-                      {income.months[month] || 0}
-                    </td>
-                  ))}
+                  {months.map((month) => {
+                    const monthAmount = income.months[month] || 0;
+
+                    // Determine the background color based on conditions
+                    const bgColor =
+                      monthAmount === income.contribution
+                        ? "bg-green-500 text-white"
+                        : monthAmount === 0
+                        ? "bg-red-500 text-white"
+                        : monthAmount < income.contribution
+                        ? "bg-orange-500 text-white"
+                        : "bg-white";
+
+                    return (
+                      <td
+                        key={month}
+                        className={`px-4 py-2 ${bgColor} cursor-pointer border`}
+                        onClick={() => handleMonthClick(income._id, month)}
+                      >
+                        {monthAmount}
+                      </td>
+                    );
+                  })}
+
                   <td className="px-4 py-2 text-gray-800">{totalAmount}</td>
                   <td className="px-4 py-2 text-center">
                     <FaTrash
